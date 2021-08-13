@@ -5,6 +5,6 @@ const verifyToken = require("../middleware/verifyToken");
 
 router.use(verifyToken);
 router.get("/", getWislist);
-router.post("/:userId/:productId", toggleWishlistItems);
+router.post("/:productId", toggleWishlistItems);
 
 module.exports = router;

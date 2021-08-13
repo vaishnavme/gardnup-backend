@@ -5,12 +5,10 @@ const { addItemToCart, removeFormCart, updateCartQuantity, getCart } = require("
 const verifyToken = require("../middleware/verifyToken");
 
 router.use(verifyToken);
-router.param("userId", getUserById);
-router.param("userId", getUserCart);
-router.param("productId", getProductByID);
-router.get("/:userId", getCart);
-router.post("/:userId", addItemToCart);
-router.post("/:userId/:productId", updateCartQuantity);
-router.delete("/:userId/:productId", removeFormCart)
+
+router.get("/", getCart);
+router.post("/", addItemToCart);
+router.post("/:productId", getUserCart, updateCartQuantity);
+router.delete("/:productId",getUserCart, removeFormCart)
 
 module.exports = router;

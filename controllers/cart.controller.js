@@ -10,7 +10,7 @@ const populateOption = {
 const getCart = async(req, res) => {   
     try{
         const { user } = req;
-        const cart = await Cart.findOne({user: user._id}).populate(populateOption)
+        const cart = await Cart.findOne({user: user.userId}).populate(populateOption)
         res.json({
             success: true,
             cart
@@ -26,7 +26,7 @@ const addItemToCart = async(req, res) => {
         const { user } = req;
         const { productId } = req.body;
 
-        const currentCart = await Cart.findOne({user: user._id});
+        const currentCart = await Cart.findOne({user: user.userId});
 
         if(currentCart) {
             // adding to existing cart
@@ -42,7 +42,7 @@ const addItemToCart = async(req, res) => {
         else {
             //creating new cart
             const newCart = new Cart({
-                user: user._id,
+                user: user.userId,
                 cartItems: [{
                     product: productId
                 }]
@@ -76,7 +76,8 @@ const updateCartQuantity = async (req, res) =>{
             cart.save();
         }
         res.status(200).json({
-            success: cart,
+            success: true,
+            productId: productId
         })
     } catch(err) {
         res.status(503).json({

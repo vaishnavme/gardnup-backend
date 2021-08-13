@@ -44,8 +44,8 @@ const getCategoryProducts = async (req, res, next, category) => {
 
 const getUserCart = async(req, res, next) => {
     try{
-        const { user, product } = req
-        const cart = await Cart.findOne({user: user._id})
+        const { user } = req
+        const cart = await Cart.findOne({user: user.userId})
         req.cart = cart;
         next();
     }
@@ -54,39 +54,8 @@ const getUserCart = async(req, res, next) => {
     }
 }
 
-const getUserWishlist = async(req, res, next) => {
-    try{
-        const { user, product } = req
-        const wishlist = await Wishlist.findOne({user: user._id});
-        req.wishlist = wishlist;
-        next();
-    }
-    catch(err) {
-        res.status(503).json({ success:false, error:err.message })
-    }
-}
-
-
-const getUserById = async(req, res, next,userId) =>{
-    try{
-        const user = await User.findById(userId)
-        if(!user){
-            throw Error("No such user found");
-        }
-        req.user = user;
-        next()
-    } catch(err) {
-        res.status(503).json({ 
-            success:false, 
-            error: "error occured"
-        })
-    }
-}
-
 module.exports = {
     getProductByID,
     getCategoryProducts,
     getUserCart,
-    getUserWishlist,
-    getUserById
 }

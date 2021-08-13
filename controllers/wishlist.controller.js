@@ -10,8 +10,7 @@ const populateOption = {
 const getWislist = async(req, res) => {   
     try{
         const { user } = req;
-        
-        const wishlist = await Wishlist.findOne({user: user._id}).populate(populateOption)
+        const wishlist = await Wishlist.findOne({user: user.userId}).populate(populateOption)
         res.json({
             success: true,
             wishlist
@@ -24,11 +23,10 @@ const getWislist = async(req, res) => {
 
 const toggleWishlistItems = async(req, res) => {
     try {
-        const { user } = req;
         const { productId } = req.params;
         const { type } = req.body;
 
-        const currentWishlist = await Wishlist.findOne({user: user._id});
+        const currentWishlist = await Wishlist.findOne({user: userId});
 
         if(type === "REMOVE") {
             await currentWishlist.wishlist.pull(productId);
@@ -42,7 +40,7 @@ const toggleWishlistItems = async(req, res) => {
             } 
             else {
                 const newWishlist = new Wishlist({
-                    user: user._id,
+                    user: user.userId,
                     wishlist: [productId]
                 })
                 await newWishlist.save();

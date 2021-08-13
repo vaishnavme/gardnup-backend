@@ -98,7 +98,7 @@ const removeFormCart = async(req, res) => {
             const newResponse = await cart.save()
             res.status(200).json({
                 success: true,
-                newResponse
+                productId: productId
             })
         }
        
